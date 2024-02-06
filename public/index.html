@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="bundle.js" async></script>
+  <link rel="stylesheet" href="https://geowidget.inpost.pl/inpost-geowidget.css"/>
+  <script src='https://geowidget.inpost.pl/inpost-geowidget.js' defer></script>
+  <script>
+    document.addEventListener('onpointselect', (event) => {
+      // Alert value after point choosen
+      alert(event.detail.name);
+      // Send point data to example
+      sharePointWithExample(event.detail);
+    });
+
+    function sharePointWithExample(point)  {
+      const exampleElement = document.getElementById('example-id');
+      const controllerName = exampleElement.getAttribute('data-controller');
+      const controller = document.querySelector(`[data-controller="${controllerName}"]`);
+      controller.dispatchEvent(new CustomEvent('share-point', { point }));
+    }
+  </script>
+</head>
+
+<body>
+  <h1 data-controller="example" id="example-id"></h1>
+  <div style="width: 800px; height: 1000px">
+    <inpost-geowidget onpoint="onpointselect" token='use_here_your_token' language='pl' config='parcelcollect'></inpost-geowidget>
+  </div>
+</body>
+</html>
